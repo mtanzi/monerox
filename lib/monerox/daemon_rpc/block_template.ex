@@ -1,4 +1,4 @@
-defmodule Monerox.DeamonRPC.BlockTemplate do
+defmodule Monerox.DaemonRPC.BlockTemplate do
   defstruct blocktemplate_blob: nil,
             difficulty: nil,
             height: nil,

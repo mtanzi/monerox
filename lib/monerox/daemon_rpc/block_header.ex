@@ -1,4 +1,4 @@
-defmodule Monerox.DeamonRPC.BlockHeader do
+defmodule Monerox.DaemonRPC.BlockHeader do
   defstruct block_size: nil,
             depth: nil,
             difficulty: nil,

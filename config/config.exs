@@ -2,7 +2,7 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-config :monerox, :deamon_rpc,
+config :monerox, :daemon_rpc,
   host: "127.0.0.1",
   port: 18081
 

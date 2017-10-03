@@ -1,4 +1,4 @@
-defmodule Monerox.DeamonRPC.Info do
+defmodule Monerox.DaemonRPC.Info do
 
 defstruct alt_blocks_count: nil,
           block_size_limit: nil,

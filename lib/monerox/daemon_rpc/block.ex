@@ -1,4 +1,4 @@
-defmodule Monerox.DeamonRPC.Block do
+defmodule Monerox.DaemonRPC.Block do
   defstruct blob: nil,
             block_header: nil,
             json: nil,
@@ -53,6 +53,6 @@ defmodule Monerox.DeamonRPC.Block do
   def parse_result(result), do: result
 
   def parse_block_header(block_header) do
-    struct(Monerox.DeamonRPC.BlockHeader, (block_header |> Util.key_to_atom))
+    struct(Monerox.DaemonRPC.BlockHeader, (block_header |> Util.key_to_atom))
   end
 end

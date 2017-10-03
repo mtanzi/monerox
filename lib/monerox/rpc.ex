@@ -1,7 +1,7 @@
 defmodule Monerox.RPC do
 
   def demon_rpc(method, params \\ nil) do
-    case HTTPoison.post deamon_path(), new_params(method, params), [{"Content-Type", "application/json"}] do
+    case HTTPoison.post daemon_path(), new_params(method, params), [{"Content-Type", "application/json"}] do
       {:ok, response} ->
         response
         |> do_response
@@ -11,8 +11,8 @@ defmodule Monerox.RPC do
     end
   end
 
-  def deamon_path() do
-    "http://#{Application.get_env(:monerox, :deamon_rpc)[:host]}:#{Application.get_env(:monerox, :deamon_rpc)[:port]}/json_rpc"
+  def daemon_path() do
+    "http://#{Application.get_env(:monerox, :daemon_rpc)[:host]}:#{Application.get_env(:monerox, :daemon_rpc)[:port]}/json_rpc"
   end
 
   def new_params(method, params) do
