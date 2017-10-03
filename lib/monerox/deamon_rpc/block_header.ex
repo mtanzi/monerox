@@ -1,4 +1,4 @@
-defmodule Monerox.RPC.BlockHeader do
+defmodule Monerox.DeamonRPC.BlockHeader do
   defstruct block_size: nil,
             depth: nil,
             difficulty: nil,
@@ -16,17 +16,17 @@ defmodule Monerox.RPC.BlockHeader do
   alias Monerox.Util
 
   def get_last() do
-    Monerox.Connection.demon_rpc("getlastblockheader")
+    Monerox.RPC.demon_rpc("getlastblockheader")
     |> parse_response
   end
 
   def get_by_height(height) do
-    Monerox.Connection.demon_rpc("getblockheaderbyheight", %{height: height})
+    Monerox.RPC.demon_rpc("getblockheaderbyheight", %{height: height})
     |> parse_response
   end
 
   def get_by_hash(hash) do
-    Monerox.Connection.demon_rpc("getblockheaderbyhash", %{hash: hash})
+    Monerox.RPC.demon_rpc("getblockheaderbyhash", %{hash: hash})
     |> parse_response
   end
 

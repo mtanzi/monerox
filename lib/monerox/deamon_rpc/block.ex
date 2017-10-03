@@ -1,4 +1,4 @@
-defmodule Monerox.RPC.Block do
+defmodule Monerox.DeamonRPC.Block do
   defstruct blob: nil,
             block_header: nil,
             json: nil,
@@ -7,23 +7,38 @@ defmodule Monerox.RPC.Block do
 
   alias Monerox.Util
 
+  def count() do
+    Monerox.RPC.demon_rpc("getblockcount")
+    |> parse_count_response
+  end
+
   def get(%{height: height} = params), do: do_get(params)
   def get(%{hash: hash} = params), do: do_get(params)
   def get(_), do: {:error, "wrong params passed"}
 
   def do_get(params) do
-    Monerox.Connection.demon_rpc("getblock", params)
-    |> parse_response
+    Monerox.RPC.demon_rpc("getblock", params)
+    |> parse_get_response
   end
 
-  def parse_response(%{"id" => "0",
+  def parse_count_response(%{"id" => "0",
+                       "jsonrpc" => "2.0",
+                       "result" => _} = result) do
+    result
+    |> Util.key_to_atom
+  end
+  def parse_count_response(%{"error" => %{"message" => message}}) do
+    {:error, message}
+  end
+
+  def parse_get_response(%{"id" => "0",
                        "jsonrpc" => "2.0",
                        "result" => _} = result) do
     result
     |> Util.key_to_atom
     |> Map.put(:result, parse_result(result))
   end
-  def parse_response(%{"error" => %{"message" => message}}) do
+  def parse_get_response(%{"error" => %{"message" => message}}) do
     {:error, message}
   end
 
@@ -38,6 +53,6 @@ defmodule Monerox.RPC.Block do
   def parse_result(result), do: result
 
   def parse_block_header(block_header) do
-    struct(Monerox.RPC.BlockHeader, (block_header |> Util.key_to_atom))
+    struct(Monerox.DeamonRPC.BlockHeader, (block_header |> Util.key_to_atom))
   end
 end

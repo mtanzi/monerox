@@ -1,19 +1,41 @@
 defmodule Monerox.RPC do
 
-  defdelegate getblockcount(), to: Monerox.RPC.GetBlockCount, as: :call
+  def demon_rpc(method, params \\ nil) do
+    case HTTPoison.post deamon_path(), new_params(method, params), [{"Content-Type", "application/json"}] do
+      {:ok, response} ->
+        response
+        |> do_response
 
-  defdelegate on_getblockhash(height), to: Monerox.RPC.OnGetBlockHash, as: :call
+      error ->
+        IO.inspect error
+    end
+  end
 
-  defdelegate getblocktemplate(wallet_address, reverse_size \\ 8), to: Monerox.RPC.BlockTemplate, as: :get
+  def deamon_path() do
+    "http://#{Application.get_env(:monerox, :deamon_rpc)[:host]}:#{Application.get_env(:monerox, :deamon_rpc)[:port]}/json_rpc"
+  end
 
-  defdelegate submitblock(blob), to: Monerox.RPC.Block, as: :submit
+  def new_params(method, params) do
+    %{jsonrpc: "2.0", id: "0"}
+    |> do_method(method)
+    |> do_params(params)
+    |> Poison.encode!
+  end
 
-  defdelegate getlastblockheader(), to: Monerox.RPC.BlockHeader, as: :get_last
+  def do_method(data, method) do
+    data |> Map.merge(%{method: method})
+  end
 
-  defdelegate getblockheaderbyhash(hash), to: Monerox.RPC.BlockHeader, as: :get_by_hash
+  def do_params(data, params) when is_map(params) do
+    data |> Map.merge(%{params: params})
+  end
+  def do_params(data, _), do: data
 
-  defdelegate getblockheaderbyheight(height), to: Monerox.RPC.BlockHeader, as: :get_by_height
-
-  defdelegate getblock(params), to: Monerox.RPC.Block, as: :get
-
+  def do_response(%{body: body, status_code: 200}) do
+    body
+    |> Poison.decode!
+  end
+  def do_response(%{body: body, status_code: _}) do
+    body
+  end
 end
