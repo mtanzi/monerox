@@ -5,8 +5,10 @@ defmodule Monerox.RPC.BlockTemplate do
             prev_hash: nil,
             reserved_offset: nil
 
+  alias Monerox.Util
+
   def get(wallet_address, reserve_size) do
-    Monerox.Util.demon_rpc("getblocktemplate", %{wallet_address: wallet_address, reserve_size: reserve_size})
+    Monerox.Connection.demon_rpc("getblocktemplate", %{wallet_address: wallet_address, reserve_size: reserve_size})
     |> parse_response
   end
 
@@ -14,7 +16,7 @@ defmodule Monerox.RPC.BlockTemplate do
                        "jsonrpc" => "2.0",
                        "result" => _} = result) do
     result
-    |> key_to_atom
+    |> Util.key_to_atom
     |> Map.put(:result, parse_result(result))
   end
   def parse_response(%{"error" => %{"message" => message}}) do
@@ -23,15 +25,7 @@ defmodule Monerox.RPC.BlockTemplate do
 
   def parse_result(%{"result" => result}) do
 
-    struct(__MODULE__, (result |> key_to_atom))
+    struct(__MODULE__, (result |> Util.key_to_atom))
   end
   def parse_result(result), do: result
-
-  def key_to_atom(data) do
-    data
-    |> Enum.reduce(%{},
-      fn ({key, val}, acc) ->
-        Map.put(acc, String.to_atom(key), val)
-      end)
-  end
 end
