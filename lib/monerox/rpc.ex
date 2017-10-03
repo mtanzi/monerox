@@ -6,8 +6,8 @@ defmodule Monerox.RPC do
         response
         |> do_response
 
-      error ->
-        IO.inspect error
+      {:error, %HTTPoison.Error{reason: message}} ->
+        {:error, message}
     end
   end
 
