@@ -44,7 +44,7 @@ defmodule Monerox.Daemon.RPCMock do
       height: 1234, major_version: 6, minor_version: 6, nonce: 3288386599,
       num_txes: 2, orphan_status: false,
       prev_hash: "hash-1111",
-      reward: 6296911737749, timestamp: 1507151548
+      reward: 6296911737749, timestamp: 1507151548 |> DateTime.from_unix!
     }
   end
 

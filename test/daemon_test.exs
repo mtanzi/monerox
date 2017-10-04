@@ -68,7 +68,7 @@ defmodule DeamonTest do
                                orphan_status: _,
                                prev_hash: _,
                                reward: _,
-                               timestamp: _
+                               timestamp: %DateTime{}
                               },
                              status: "OK"}), do: true
   defp block_header_correct(_), do: false
@@ -88,7 +88,7 @@ defmodule DeamonTest do
                        orphan_status: _,
                        prev_hash: _,
                        reward: _,
-                       timestamp: _
+                       timestamp: %DateTime{}
                       },
                       json: _,
                       status: "OK",
