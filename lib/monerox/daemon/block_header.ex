@@ -44,11 +44,17 @@ defmodule Monerox.Daemon.BlockHeader do
   def parse_response(error), do: error
 
   def parse_result(%{"result" =>
-                     %{"block_header" => result,
-                       "status" => "OK"} = block_header}) do
-    block_header
+                     %{"block_header" => block_header,
+                       "status" => "OK"} = data}) do
+
+    block_header_formatted =
+      block_header
+      |> Util.key_to_atom
+      |> Util.convert_date
+
+    data
     |> Util.key_to_atom
-    |> Map.put(:block_header, struct(__MODULE__, (result |> Util.key_to_atom)))
+    |> Map.put(:block_header, struct(__MODULE__, block_header_formatted))
   end
   def parse_result(result), do: result
 end

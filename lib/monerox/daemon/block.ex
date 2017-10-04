@@ -14,8 +14,8 @@ defmodule Monerox.Daemon.Block do
     |> parse_count_response
   end
 
-  def get(%{height: height} = params), do: do_get(params)
-  def get(%{hash: hash} = params), do: do_get(params)
+  def get(%{height: _height} = params), do: do_get(params)
+  def get(%{hash: _hash} = params), do: do_get(params)
   def get(_), do: {:error, "wrong params passed"}
 
   def do_get(params) do
@@ -55,6 +55,11 @@ defmodule Monerox.Daemon.Block do
   def parse_result(result), do: result
 
   def parse_block_header(block_header) do
-    struct(Monerox.Daemon.BlockHeader, (block_header |> Util.key_to_atom))
+    block_header_formatted =
+      block_header
+      |> Util.key_to_atom
+      |> Util.convert_date
+
+    struct(Monerox.Daemon.BlockHeader, block_header_formatted)
   end
 end
