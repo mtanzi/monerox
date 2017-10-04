@@ -37,7 +37,7 @@ defmodule Monerox.Daemon.Block do
     |> Map.put(:result, result_atom)
   end
   def parse_count_response(%{"error" => %{"message" => message}}),
-    do: parse_get_response({:error, message})
+    do: parse_count_response({:error, message})
   def parse_count_response(error), do: error
 
   def parse_get_response(%{"id" => "0",
