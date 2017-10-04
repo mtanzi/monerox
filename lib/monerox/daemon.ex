@@ -1,6 +1,6 @@
-defmodule Monerox.DaemonRPC do
+defmodule Monerox.Daemon do
   @moduledoc """
-  `Monerox.DaemonRPC` interact with the Monero Deamo RPC calls. Here the list of
+  `Monerox.Daemon` interact with the Monero Deamo RPC calls. Here the list of
   the available calls
 
     ## RPC
@@ -28,10 +28,10 @@ defmodule Monerox.DaemonRPC do
 
   ## Example:
 
-  iex(41)> Monerox.DaemonRPC.getblockcount
+  iex(41)> Monerox.Daemon.getblockcount
   %{id: "0", jsonrpc: "2.0", result: %{"count" => 1412836, "status" => "OK"}}
   """
-  defdelegate getblockcount(), to: Monerox.DaemonRPC.Block, as: :count
+  defdelegate getblockcount(), to: Monerox.Daemon.Block, as: :count
 
   @doc """
   it return the block template from the given wallet_address
@@ -42,14 +42,14 @@ defmodule Monerox.DaemonRPC do
   * reserve_size (int): Reserve size.
 
   ## Example
-  Monerox.DaemonRPC.getblocktemplate("49oyeH...", 60)
+  Monerox.Daemon.getblocktemplate("49oyeH...", 60)
   %{id: "0", jsonrpc: "2.0",
-  result: %Monerox.DaemonRPC.BlockTemplate{blocktemplate_blob: "0606fa...",
+  result: %Monerox.Daemon.BlockTemplate{blocktemplate_blob: "0606fa...",
    difficulty: 30460907885, height: 1412837,
    prev_hash: "e30e4f...",
    reserved_offset: 130}}
   """
-  defdelegate getblocktemplate(wallet_address, reverse_size \\ 8), to: Monerox.DaemonRPC.BlockTemplate, as: :get
+  defdelegate getblocktemplate(wallet_address, reverse_size \\ 8), to: Monerox.Daemon.BlockTemplate, as: :get
 
   @doc """
   It retrieve the header information for the most recent block
@@ -58,9 +58,9 @@ defmodule Monerox.DaemonRPC do
   None
 
   ## Example
-  iex(46)> Monerox.DaemonRPC.getlastblockheader
+  iex(46)> Monerox.Daemon.getlastblockheader
   %{id: "0", jsonrpc: "2.0",
-    result: %{block_header: %Monerox.DaemonRPC.BlockHeader{block_size: 305716,
+    result: %{block_header: %Monerox.Daemon.BlockHeader{block_size: 305716,
        depth: 0, difficulty: 30423669484,
        hash: "1eca77...",
        height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
@@ -68,7 +68,7 @@ defmodule Monerox.DaemonRPC do
        prev_hash: "a13efb...",
        reward: 6568114453628, timestamp: 1507066498}, status: "OK"}}
   """
-  defdelegate getlastblockheader(), to: Monerox.DaemonRPC.BlockHeader, as: :get_last
+  defdelegate getlastblockheader(), to: Monerox.Daemon.BlockHeader, as: :get_last
 
   @doc """
   Fetch the header informations fo the block with the given hash.
@@ -77,9 +77,9 @@ defmodule Monerox.DaemonRPC do
   * hash (string): Hash of the block
 
   ## Example
-  iex(47)> Monerox.DaemonRPC.getblockheaderbyhash("1eca77e4de151bc3676377a465ac6ed260fd94124bc123b92c9c2af9316d4c13")
+  iex(47)> Monerox.Daemon.getblockheaderbyhash("1eca77e4de151bc3676377a465ac6ed260fd94124bc123b92c9c2af9316d4c13")
   %{id: "0", jsonrpc: "2.0",
-    result: %{block_header: %Monerox.DaemonRPC.BlockHeader{block_size: 305716,
+    result: %{block_header: %Monerox.Daemon.BlockHeader{block_size: 305716,
        depth: 0, difficulty: 30423669484,
        hash: "1eca77...",
        height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
@@ -87,7 +87,7 @@ defmodule Monerox.DaemonRPC do
        prev_hash: "a13efb...",
        reward: 6568114453628, timestamp: 1507066498}, status: "OK"}}
   """
-  defdelegate getblockheaderbyhash(hash), to: Monerox.DaemonRPC.BlockHeader, as: :get_by_hash
+  defdelegate getblockheaderbyhash(hash), to: Monerox.Daemon.BlockHeader, as: :get_by_hash
 
   @doc """
   Fetch the header informations fo the block with the given heigh.
@@ -96,9 +96,9 @@ defmodule Monerox.DaemonRPC do
   * heigh (string): height of the block
 
   ## Example
-  iex(47)> Monerox.DaemonRPC.getblockheaderbyheight("11412838")
+  iex(47)> Monerox.Daemon.getblockheaderbyheight("11412838")
   %{id: "0", jsonrpc: "2.0",
-    result: %{block_header: %Monerox.DaemonRPC.BlockHeader{block_size: 305716,
+    result: %{block_header: %Monerox.Daemon.BlockHeader{block_size: 305716,
        depth: 0, difficulty: 30423669484,
        hash: "1eca77...",
        height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
@@ -106,7 +106,7 @@ defmodule Monerox.DaemonRPC do
        prev_hash: "a13efb...",
        reward: 6568114453628, timestamp: 1507066498}, status: "OK"}}
   """
-  defdelegate getblockheaderbyheight(height), to: Monerox.DaemonRPC.BlockHeader, as: :get_by_height
+  defdelegate getblockheaderbyheight(height), to: Monerox.Daemon.BlockHeader, as: :get_by_height
 
   @doc """
   Fetch the information of the block. it expect a map with either the hash or the
@@ -117,10 +117,10 @@ defmodule Monerox.DaemonRPC do
   * %{height: height} (map): map conteining the height of the block
 
   ## Example
-  iex(48)> Monerox.DaemonRPC.getblock(%{hash: "1eca77..."})
+  iex(48)> Monerox.Daemon.getblock(%{hash: "1eca77..."})
   %{id: "0", jsonrpc: "2.0",
-    result: %Monerox.DaemonRPC.Block{blob: "060682...",
-     block_header: %Monerox.DaemonRPC.BlockHeader{block_size: 305716, depth: 2,
+    result: %Monerox.Daemon.Block{blob: "060682...",
+     block_header: %Monerox.Daemon.BlockHeader{block_size: 305716, depth: 2,
       difficulty: 30423669484,
       hash: "1eca77...", height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
       num_txes: 12, orphan_status: false,
@@ -132,7 +132,7 @@ defmodule Monerox.DaemonRPC do
      "d82caf...", "0c2fd0...", "076963...", "c375e4...", "5dc993...", "25b2eb...",
      "4510bf..."]}}
   """
-  defdelegate getblock(params), to: Monerox.DaemonRPC.Block, as: :get
+  defdelegate getblock(params), to: Monerox.Daemon.Block, as: :get
 
   @doc """
   Fetch general informations about the state of the node and the network.
@@ -140,6 +140,6 @@ defmodule Monerox.DaemonRPC do
   ## Params
   None
   """
-  defdelegate get_info(), to: Monerox.DaemonRPC.Info, as: :get
+  defdelegate get_info(), to: Monerox.Daemon.Info, as: :get
 
 end
