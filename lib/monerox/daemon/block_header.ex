@@ -1,4 +1,4 @@
-defmodule Monerox.DaemonRPC.BlockHeader do
+defmodule Monerox.Daemon.BlockHeader do
   defstruct block_size: nil,
             depth: nil,
             difficulty: nil,
@@ -15,18 +15,20 @@ defmodule Monerox.DaemonRPC.BlockHeader do
 
   alias Monerox.Util
 
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
   def get_last() do
-    Monerox.RPC.demon_rpc("getlastblockheader")
+    @daemon_rpc.call("getlastblockheader")
     |> parse_response
   end
 
   def get_by_height(height) do
-    Monerox.RPC.demon_rpc("getblockheaderbyheight", %{height: height})
+    @daemon_rpc.call("getblockheaderbyheight", %{height: height})
     |> parse_response
   end
 
   def get_by_hash(hash) do
-    Monerox.RPC.demon_rpc("getblockheaderbyhash", %{hash: hash})
+    @daemon_rpc.call("getblockheaderbyhash", %{hash: hash})
     |> parse_response
   end
 

@@ -1,4 +1,4 @@
-defmodule Monerox.DaemonRPC.Info do
+defmodule Monerox.Daemon.Info do
 
 defstruct alt_blocks_count: nil,
           block_size_limit: nil,
@@ -20,8 +20,10 @@ defstruct alt_blocks_count: nil,
 
   alias Monerox.Util
 
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
   def get() do
-    Monerox.RPC.demon_rpc("get_info")
+    @daemon_rpc.call("get_info")
     |> parse_response
   end
 

@@ -1,4 +1,4 @@
-defmodule Monerox.DaemonRPC.BlockTemplate do
+defmodule Monerox.Daemon.BlockTemplate do
   defstruct blocktemplate_blob: nil,
             difficulty: nil,
             height: nil,
@@ -7,8 +7,10 @@ defmodule Monerox.DaemonRPC.BlockTemplate do
 
   alias Monerox.Util
 
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
   def get(wallet_address, reserve_size) do
-    Monerox.RPC.demon_rpc("getblocktemplate", %{wallet_address: wallet_address, reserve_size: reserve_size})
+    @daemon_rpc.call("getblocktemplate", %{wallet_address: wallet_address, reserve_size: reserve_size})
     |> parse_response
   end
 

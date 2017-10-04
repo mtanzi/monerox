@@ -1,7 +1,9 @@
-defmodule Monerox.RPC do
+defmodule Monerox.Daemon.RPC do
 
-  def demon_rpc(method, params \\ nil) do
-    case HTTPoison.post daemon_path(), new_params(method, params), [{"Content-Type", "application/json"}] do
+  use HTTPoison.Base
+
+  def call(method, params \\ nil) do
+    case post(daemon_path(), new_params(method, params), headers()) do
       {:ok, response} ->
         response
         |> do_response
@@ -9,6 +11,10 @@ defmodule Monerox.RPC do
       {:error, %HTTPoison.Error{reason: message}} ->
         {:error, message}
     end
+  end
+
+  def headers() do
+    %{"Content-Type" => "application/json"}
   end
 
   def daemon_path() do
