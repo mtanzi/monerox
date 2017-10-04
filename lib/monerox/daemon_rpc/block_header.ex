@@ -38,7 +38,7 @@ defmodule Monerox.DaemonRPC.BlockHeader do
     |> Map.put(:result, parse_result(result))
   end
   def parse_response(%{"error" => %{"message" => message}}),
-    do: parse_get_response({:error, message})
+    do: parse_response({:error, message})
   def parse_response(error), do: error
 
   def parse_result(%{"result" =>
