@@ -1,4 +1,4 @@
-defmodule Monerox.DaemonRPC.Block do
+defmodule Monerox.Daemon.Block do
   defstruct blob: nil,
             block_header: nil,
             json: nil,
@@ -7,8 +7,10 @@ defmodule Monerox.DaemonRPC.Block do
 
   alias Monerox.Util
 
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
   def count() do
-    Monerox.RPC.demon_rpc("getblockcount")
+    @daemon_rpc.call("getblockcount")
     |> parse_count_response
   end
 
@@ -17,7 +19,7 @@ defmodule Monerox.DaemonRPC.Block do
   def get(_), do: {:error, "wrong params passed"}
 
   def do_get(params) do
-    Monerox.RPC.demon_rpc("getblock", params)
+    @daemon_rpc.call("getblock", params)
     |> parse_get_response
   end
 
@@ -53,6 +55,6 @@ defmodule Monerox.DaemonRPC.Block do
   def parse_result(result), do: result
 
   def parse_block_header(block_header) do
-    struct(Monerox.DaemonRPC.BlockHeader, (block_header |> Util.key_to_atom))
+    struct(Monerox.Daemon.BlockHeader, (block_header |> Util.key_to_atom))
   end
 end
