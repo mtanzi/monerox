@@ -25,8 +25,8 @@ defmodule Monerox.Daemon.Block do
 
   def parse_count_response(%{"id" => "0",
                              "jsonrpc" => "2.0",
-                             "result" => %{"count" => count,
-                                           "status" => status} = result
+                             "result" => %{"count" => _count,
+                                           "status" => _status} = result
                             } = response) do
     result_atom =
       result
