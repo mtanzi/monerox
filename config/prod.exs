@@ -4,6 +4,7 @@ config :monerox, :daemon_rpc,
   host: "127.0.0.1",
   port: 18081,
   adapter: Monerox.Daemon.RPC
+<<<<<<< HEAD
 
 config :monerox, :wallet_rpc,
   host: "127.0.0.1",
@@ -11,3 +12,5 @@ config :monerox, :wallet_rpc,
   username: System.get_env("WALLET_RPC_USER"),
   password: System.get_env("WALLET_RPC_PASS"),
   adapter: Monerox.Wallet.RPC
+=======
+>>>>>>> 38d632d... refactored daemon structure and added tests
