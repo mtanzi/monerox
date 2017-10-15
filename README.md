@@ -11,12 +11,17 @@ This is an evening project I did mostly did for fun so please treat it as a very
 At the moment there is a subset of RPC call implemented, you can find the description of the implemented call in the modules:
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   * [Monerox.Daemon](https://github.com/mtanzi/monerox/blob/master/lib/monerox/daemon.ex)
   * [Monerox.Wallet](https://github.com/mtanzi/monerox/blob/master/lib/monerox/wallet.ex)
 =======
   * `Monerox.Daemon`
   * `Monerox.Wallet`
 >>>>>>> 9e65eea... update README
+=======
+  * [Monerox.Daemon](https://github.com/mtanzi/monerox/blob/master/lib/monerox/daemon.ex)
+  * [Monerox.Wallet](https://github.com/mtanzi/monerox/blob/master/lib/monerox/wallet.ex)
+>>>>>>> f2cd800... updated README
 
 ## Usage
 
@@ -57,12 +62,15 @@ config :monerox, :wallet_rpc,
 See the LICENCE file in the project root.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 Released under the GNU General Public License v2
 
 http://www.gnu.org/licenses/gpl-2.0.html
 
 >>>>>>> 9e65eea... update README
+=======
+>>>>>>> f2cd800... updated README
 ## Contributing
 Please fork this repository to your own account, create a feature/{short but descriptive name} branch on your own
 repository and submit a pull request back to develop.
