@@ -1,4 +1,4 @@
-defmodule Monerox.RPC.BlockHeader do
+defmodule Monerox.Daemon.BlockHeader do
   defstruct block_size: nil,
             depth: nil,
             difficulty: nil,
@@ -15,18 +15,20 @@ defmodule Monerox.RPC.BlockHeader do
 
   alias Monerox.Util
 
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
   def get_last() do
-    Monerox.Connection.demon_rpc("getlastblockheader")
+    @daemon_rpc.call("getlastblockheader")
     |> parse_response
   end
 
   def get_by_height(height) do
-    Monerox.Connection.demon_rpc("getblockheaderbyheight", %{height: height})
+    @daemon_rpc.call("getblockheaderbyheight", %{height: height})
     |> parse_response
   end
 
   def get_by_hash(hash) do
-    Monerox.Connection.demon_rpc("getblockheaderbyhash", %{hash: hash})
+    @daemon_rpc.call("getblockheaderbyhash", %{hash: hash})
     |> parse_response
   end
 
@@ -37,16 +39,22 @@ defmodule Monerox.RPC.BlockHeader do
     |> Util.key_to_atom
     |> Map.put(:result, parse_result(result))
   end
-  def parse_response(%{"error" => %{"message" => message}}) do
-    {:error, message}
-  end
+  def parse_response(%{"error" => %{"message" => message}}),
+    do: parse_response({:error, message})
+  def parse_response(error), do: error
 
   def parse_result(%{"result" =>
-                     %{"block_header" => result,
-                       "status" => "OK"} = block_header}) do
-    block_header
+                     %{"block_header" => block_header,
+                       "status" => "OK"} = data}) do
+
+    block_header_formatted =
+      block_header
+      |> Util.key_to_atom
+      |> Util.convert_date
+
+    data
     |> Util.key_to_atom
-    |> Map.put(:block_header, struct(__MODULE__, (result |> Util.key_to_atom)))
+    |> Map.put(:block_header, struct(__MODULE__, block_header_formatted))
   end
   def parse_result(result), do: result
 end

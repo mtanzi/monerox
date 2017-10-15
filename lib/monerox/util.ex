@@ -6,4 +6,9 @@ defmodule Monerox.Util do
         Map.put(acc, String.to_atom(key), val)
       end)
   end
+
+  def convert_date(%{timestamp: timestamp} = data) do
+    data
+    |> Map.put(:timestamp, timestamp |> DateTime.from_unix!)
+  end
 end

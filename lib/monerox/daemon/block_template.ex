@@ -1,4 +1,4 @@
-defmodule Monerox.RPC.BlockTemplate do
+defmodule Monerox.Daemon.BlockTemplate do
   defstruct blocktemplate_blob: nil,
             difficulty: nil,
             height: nil,
@@ -7,8 +7,10 @@ defmodule Monerox.RPC.BlockTemplate do
 
   alias Monerox.Util
 
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
   def get(wallet_address, reserve_size) do
-    Monerox.Connection.demon_rpc("getblocktemplate", %{wallet_address: wallet_address, reserve_size: reserve_size})
+    @daemon_rpc.call("getblocktemplate", %{wallet_address: wallet_address, reserve_size: reserve_size})
     |> parse_response
   end
 
@@ -19,9 +21,9 @@ defmodule Monerox.RPC.BlockTemplate do
     |> Util.key_to_atom
     |> Map.put(:result, parse_result(result))
   end
-  def parse_response(%{"error" => %{"message" => message}}) do
-    {:error, message}
-  end
+  def parse_response(%{"error" => %{"message" => message}}),
+    do: parse_response({:error, message})
+  def parse_response(error), do: error
 
   def parse_result(%{"result" => result}) do
 
