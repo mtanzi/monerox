@@ -1,47 +1,22 @@
 defmodule Monerox.Daemon.RPC do
+  @moduledoc """
+  Daemon.RPC is used to connect and make RPC call to the monero daemon.
 
-  use HTTPoison.Base
+  The client use the Monero.RPC module where are described all the functions needed
+  to connect to the RPC daemon. The macro expect a keyword list with all the
+  configuration files.
 
-  def call(method, params \\ nil) do
-    case post(daemon_path(), new_params(method, params), headers()) do
-      {:ok, response} ->
-        response
-        |> do_response
+  In the configuration file we need to define the host and port where the RPC
+  daemon is running and the adapter used.
 
-      {:error, %HTTPoison.Error{reason: message}} ->
-        {:error, message}
-    end
-  end
+    # Example
 
-  def headers() do
-    %{"Content-Type" => "application/json"}
-  end
+      config :monerox, :daemon_rpc,
+        host: "127.0.0.1",
+        port: 18081,
+        adapter: Monerox.Daemon.RPC
+  """
 
-  def daemon_path() do
-    "http://#{Application.get_env(:monerox, :daemon_rpc)[:host]}:#{Application.get_env(:monerox, :daemon_rpc)[:port]}/json_rpc"
-  end
+  use Monerox.RPC, Application.get_env(:monerox, :daemon_rpc)
 
-  def new_params(method, params) do
-    %{jsonrpc: "2.0", id: "0"}
-    |> do_method(method)
-    |> do_params(params)
-    |> Poison.encode!
-  end
-
-  def do_method(data, method) do
-    data |> Map.merge(%{method: method})
-  end
-
-  def do_params(data, params) when is_map(params) do
-    data |> Map.merge(%{params: params})
-  end
-  def do_params(data, _), do: data
-
-  def do_response(%{body: body, status_code: 200}) do
-    body
-    |> Poison.decode!
-  end
-  def do_response(%{body: body, status_code: _}) do
-    body
-  end
 end
