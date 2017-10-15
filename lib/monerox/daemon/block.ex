@@ -62,15 +62,21 @@ defmodule Monerox.Daemon.Block do
   def parse_result(result), do: result
 
   def parse_block_header(block_header) do
+<<<<<<< HEAD
 <<<<<<< HEAD:lib/monerox/daemon/block.ex
+=======
+>>>>>>> 783b954... convert unixtime to datetime
     block_header_formatted =
       block_header
       |> Util.key_to_atom
       |> Util.convert_date
 
     struct(Monerox.Daemon.BlockHeader, block_header_formatted)
+<<<<<<< HEAD
 =======
     struct(Monerox.Daemon.BlockHeader, (block_header |> Util.key_to_atom))
 >>>>>>> 38d632d... refactored daemon structure and added tests:lib/monerox/daemon/block.ex
+=======
+>>>>>>> 783b954... convert unixtime to datetime
   end
 end
