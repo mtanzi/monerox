@@ -2,12 +2,12 @@
 
 A library for Monero RPC calls written in Elixir.
 
-This library can be used to build application on top of the Monero protocol leveraging on the power of Elixir
+This library can be used to build application on top of the Monero protocol using the power of Elixir
 
-This is an evening project I did mostly did for fun so please treat it as a very Alpha version. If anybody would like to contribute, any help would be really appreciated.
+This is an evening project, I wrote it mostly for fun so please treat it as a very Alpha version. If anybody want to contribute, any help would be really appreciated.
 
 ## Current status
-At the moment there is a subset of RPC call implemented, you can find the description of the implemented call in the modules:
+At the moment there is only a subset of RPC call implemented, you can find the description of the calls in the following modules:
 
   * [Monerox.Daemon](https://github.com/mtanzi/monerox/blob/master/lib/monerox/daemon.ex)
   * [Monerox.Wallet](https://github.com/mtanzi/monerox/blob/master/lib/monerox/wallet.ex)
@@ -23,7 +23,7 @@ end
 ```
 
 ## Connect to the Daemons
-This library need to have both the Daemon RPC and the Wallet RPC client running. You can find the instruction about how to install and start the daemons on the [Monero project](https://github.com/monero-project/monero)
+In order to use this library you need to start both the Daemon RPC and the Wallet RPC client. You can find the instruction about how to install and run the daemons on the [Monero project](https://github.com/monero-project/monero)
 
 You need to add the configuration for both the clients to define the connections properties.
 
@@ -45,7 +45,7 @@ config :monerox, :wallet_rpc,
 
 ## Donations
 * BTC: `1JErvsedmVpuT3kUsHfZmWFqChFerTBc8f`
-* XRM: `43GLcLJZLja2CJujNmFwozWkitV8dBMtEEeESjXLguFdbeTbahqyaBxTGVjv7tPnz47EpBGf5miVsEZFnAXXxC9xNLAM8Ec`
+* XMR: `43GLcLJZLja2CJujNmFwozWkitV8dBMtEEeESjXLguFdbeTbahqyaBxTGVjv7tPnz47EpBGf5miVsEZFnAXXxC9xNLAM8Ec`
 
 ## Licence
 See the LICENCE file in the project root.
