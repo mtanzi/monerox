@@ -26,7 +26,7 @@ defmodule Monerox.Daemon.RPCMock do
     %{
       id: "0",
       jsonrpc: "2.0",
-      result: %Monerox.Daemon.BlockTemplate{
+      result: %{
         blocktemplate_blob: "blob-1111",
         difficulty: 300000000,
         height: 1234,
@@ -37,7 +37,7 @@ defmodule Monerox.Daemon.RPCMock do
   end
 
   def header() do
-    %Monerox.Daemon.BlockHeader{
+    %{
       block_size: 1234,
       depth: 0, difficulty: 300000000,
       hash: "hash-2222",
@@ -63,7 +63,7 @@ defmodule Monerox.Daemon.RPCMock do
     %{
       id: "0",
       jsonrpc: "2.0",
-      result: %Monerox.Daemon.Block{
+      result: %{
         blob: "blob-1111",
         block_header: header(),
         json: "{...}",
@@ -76,7 +76,7 @@ defmodule Monerox.Daemon.RPCMock do
   defp info() do
     %{id: "0",
       jsonrpc: "2.0",
-      result: %Monerox.Daemon.Info{
+      result: %{
         alt_blocks_count: 0,
         block_size_limit: 600000,
         cumulative_difficulty: 3874296726055158,

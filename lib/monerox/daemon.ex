@@ -29,10 +29,10 @@ defmodule Monerox.Daemon do
 
   # Example:
 
-    iex> Monerox.Daemon.getblockcount()
-    %{id: "0", jsonrpc: "2.0", result: %{"count" => 1412836, "status" => "OK"}}
+    iex(24)> Monerox.Daemon.getblockcount
+    %{"id" => 15, "jsonrpc" => "2.0", "result" => %{"count" => 1425545, "status" => "OK"}}
   """
-  defdelegate getblockcount(), to: Monerox.Daemon.Block, as: :count
+  defdelegate getblockcount(), to: Monerox.Daemon.RPC
 
   @doc """
   it return the block template from the given wallet_address
@@ -63,17 +63,17 @@ defmodule Monerox.Daemon do
 
   # Example
 
-    iex> Monerox.Daemon.getlastblockheader()
-    %{id: "0", jsonrpc: "2.0",
-      result: %{block_header: %Monerox.Daemon.BlockHeader{block_size: 305716,
-         depth: 0, difficulty: 30423669484,
-         hash: "1eca77...",
-         height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
-         num_txes: 12, orphan_status: false,
-         prev_hash: "a13efb...",
-         reward: 6568114453628, timestamp: 1507066498}, status: "OK"}}
+    iex(26)> Monerox.Daemon.getlastblockheader
+    %{"id" => 16, "jsonrpc" => "2.0",
+    "result" => %{"block_header" => %{"block_size" => 95, "depth" => 0,
+        "difficulty" => 27961225936,
+        "hash" => "9b431bc8df3142a0fc0c9fb79c0a52cab12801c9a5a7d9a60c82b885c8f22623",
+        "height" => 1425545, "major_version" => 6, "minor_version" => 6,
+        "nonce" => 8445, "num_txes" => 0, "orphan_status" => false,
+        "prev_hash" => "9a9b982086b88211af6b1f943551ff1aa25c627a27f95088d126180d9a2c53f1",
+        "reward" => 6101648255431, "timestamp" => 1508595292}, "status" => "OK"}}
   """
-  defdelegate getlastblockheader(), to: Monerox.Daemon.BlockHeader, as: :get_last
+  defdelegate getlastblockheader(), to: Monerox.Daemon.RPC
 
   @doc """
   Fetch the header informations fo the block with the given hash.
@@ -84,17 +84,17 @@ defmodule Monerox.Daemon do
 
   # Example
 
-    iex> Monerox.Daemon.getblockheaderbyhash("1eca77e4de151bc3676377a465ac6ed260fd94124bc123b92c9c2af9316d4c13")
-    %{id: "0", jsonrpc: "2.0",
-      result: %{block_header: %Monerox.Daemon.BlockHeader{block_size: 305716,
-         depth: 0, difficulty: 30423669484,
-         hash: "1eca77...",
-         height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
-         num_txes: 12, orphan_status: false,
-         prev_hash: "a13efb...",
-         reward: 6568114453628, timestamp: 1507066498}, status: "OK"}}
+    iex(29)> Monerox.Daemon.getblockheaderbyhash("9b431bc8df3142a0fc0c9fb79c0a52cab12801c9a5a7d9a60c82b885c8f22623")
+    %{"id" => 17, "jsonrpc" => "2.0",
+    "result" => %{"block_header" => %{"block_size" => 95, "depth" => 1,
+        "difficulty" => 27961225936,
+        "hash" => "9b431bc8df3142a0fc0c9fb79c0a52cab12801c9a5a7d9a60c82b885c8f22623",
+        "height" => 1425545, "major_version" => 6, "minor_version" => 6,
+        "nonce" => 8445, "num_txes" => 0, "orphan_status" => false,
+        "prev_hash" => "9a9b982086b88211af6b1f943551ff1aa25c627a27f95088d126180d9a2c53f1",
+        "reward" => 6101648255431, "timestamp" => 1508595292}, "status" => "OK"}}
   """
-  defdelegate getblockheaderbyhash(hash), to: Monerox.Daemon.BlockHeader, as: :get_by_hash
+  defdelegate getblockheaderbyhash(hash), to: Monerox.Daemon.RPC
 
   @doc """
   Fetch the header informations fo the block with the given heigh.
@@ -105,17 +105,17 @@ defmodule Monerox.Daemon do
 
   # Example
 
-    iex> Monerox.Daemon.getblockheaderbyheight("11412838")
-    %{id: "0", jsonrpc: "2.0",
-      result: %{block_header: %Monerox.Daemon.BlockHeader{block_size: 305716,
-         depth: 0, difficulty: 30423669484,
-         hash: "1eca77...",
-         height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
-         num_txes: 12, orphan_status: false,
-         prev_hash: "a13efb...",
-         reward: 6568114453628, timestamp: 1507066498}, status: "OK"}}
+    iex(31)> Monerox.Daemon.getblockheaderbyheight(1425545)
+    %{"id" => 19, "jsonrpc" => "2.0",
+    "result" => %{"block_header" => %{"block_size" => 95, "depth" => 1,
+        "difficulty" => 27961225936,
+        "hash" => "9b431bc8df3142a0fc0c9fb79c0a52cab12801c9a5a7d9a60c82b885c8f22623",
+        "height" => 1425545, "major_version" => 6, "minor_version" => 6,
+        "nonce" => 8445, "num_txes" => 0, "orphan_status" => false,
+        "prev_hash" => "9a9b982086b88211af6b1f943551ff1aa25c627a27f95088d126180d9a2c53f1",
+        "reward" => 6101648255431, "timestamp" => 1508595292}, "status" => "OK"}}
   """
-  defdelegate getblockheaderbyheight(height), to: Monerox.Daemon.BlockHeader, as: :get_by_height
+  defdelegate getblockheaderbyheight(height), to: Monerox.Daemon.RPC
 
   @doc """
   Fetch the information of the block. it expect a map with either the hash or the
@@ -128,22 +128,20 @@ defmodule Monerox.Daemon do
 
   # Example
 
-    iex> Monerox.Daemon.getblock(%{hash: "1eca77..."})
-    %{id: "0", jsonrpc: "2.0",
-      result: %Monerox.Daemon.Block{blob: "060682...",
-       block_header: %Monerox.Daemon.BlockHeader{block_size: 305716, depth: 2,
-        difficulty: 30423669484,
-        hash: "1eca77...", height: 1412838, major_version: 6, minor_version: 6, nonce: 1444941736,
-        num_txes: 12, orphan_status: false,
-        prev_hash: "a13efb2fb479f0ec33c40d46d8139e9ff752f0c7a6568d30b4b2306e855f29ab",
-        reward: 6568114453628, timestamp: 1507066498},
-       json: "{\n  \"major_version\": 6, ...",
-       status: "OK",
-       tx_hashes: ["210abb...", "379f561...", "995731...", "a7e8f7...", cba388...",
-       "d82caf...", "0c2fd0...", "076963...", "c375e4...", "5dc993...", "25b2eb...",
-       "4510bf..."]}}
+    iex(32)> Monerox.Daemon.getblock(%{hash: "9b431bc8df3142a0fc0c9fb79c0a52cab12801c9a5a7d9a60c82b885c8f22623"})
+    %{"id" => 20, "jsonrpc" => "2.0",
+    "result" => %{"blob" => "0606dcacad...",
+      "block_header" => %{"block_size" => 95, "depth" => 2,
+        "difficulty" => 27961225936,
+        "hash" => "9b431bc8df3142a0fc0c9fb79c0a52cab12801c9a5a7d9a60c82b885c8f22623",
+        "height" => 1425545, "major_version" => 6, "minor_version" => 6,
+        "nonce" => 8445, "num_txes" => 0, "orphan_status" => false,
+        "prev_hash" => "9a9b982086b88211af6b1f943551ff1aa25c627a27f95088d126180d9a2c53f1",
+        "reward" => 6101648255431, "timestamp" => 1508595292},
+      "json" => "{...}",
+      "status" => "OK"}}
   """
-  defdelegate getblock(params), to: Monerox.Daemon.Block, as: :get
+  defdelegate getblock(params), to: Monerox.Daemon.RPC
 
   @doc """
   Fetch general informations about the state of the node and the network.
@@ -154,16 +152,16 @@ defmodule Monerox.Daemon do
 
   # Example
 
-    iex> Monerox.Daemon.get_info()
-    %{id: "0", jsonrpc: "2.0",
-      result: %Monerox.Daemon.Info{alt_blocks_count: 0, block_size_limit: 600000,
-       cumulative_difficulty: 4109981961448388, difficulty: 30473420047,
-       grey_peerlist_size: 2227, height: 1421112, incoming_connections_count: 0,
-       outgoing_connections_count: 8, start_time: 1508055160, status: "OK",
-       target: 120, target_height: 1421063, testnet: false,
-       top_block_hash: "da3a899b479c8a19d138b658883c539da899b99fd4da3b90da7024e981b13a56",
-       tx_count: 1767633, tx_pool_size: 6, white_peerlist_size: 92}}
+    iex(22)> Monerox.Daemon.get_info()
+    %{"id" => 14, "jsonrpc" => "2.0",
+    "result" => %{"alt_blocks_count" => 0, "block_size_limit" => 600000,
+      "cumulative_difficulty" => 4244506459638282, "difficulty" => 27961225936,
+      "grey_peerlist_size" => 1913, "height" => 1425545,
+      "incoming_connections_count" => 0, "outgoing_connections_count" => 8,
+      "start_time" => 1508592687, "status" => "OK", "target" => 120,
+      "target_height" => 0, "testnet" => false,
+      "top_block_hash" => "9a9b982086b88211af6b1f943551ff1aa25c627a27f95088d126180d9a2c53f1",
+      "tx_count" => 1792596, "tx_pool_size" => 0, "white_peerlist_size" => 42}}
   """
-  defdelegate get_info(), to: Monerox.Daemon.Info, as: :get
-
+  defdelegate get_info(), to: Monerox.Daemon.RPC
 end
