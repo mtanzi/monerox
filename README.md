@@ -1,4 +1,4 @@
-# Monerox [![Build Status](https://travis-ci.org/mtanzi/monerox.svg?branch=master)](https://travis-ci.org/mtanzi/monerox)
+# Monerox
 
 A library for Monero RPC calls written in Elixir.
 

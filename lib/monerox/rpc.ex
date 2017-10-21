@@ -14,8 +14,8 @@ defmodule Monerox.RPC do
       @params %{jsonrpc: "2.0",
                 id: "0"}
 
-      def call(method, params \\ nil) do
-        do_post(wallet_path(), new_params(method, params), @headers)
+      def call(params \\ nil) do
+        do_post(wallet_path(), params, @headers)
       end
 
       def do_post(path, params, headers) do
@@ -54,22 +54,6 @@ defmodule Monerox.RPC do
           ArgumentError -> {:error, "Authorization failed"}
         end
       end
-
-      def new_params(method, params) do
-        @params
-        |> add_method(method)
-        |> add_params(params)
-        |> Poison.encode!
-      end
-
-      def add_method(data, method) do
-        data |> Map.merge(%{method: method})
-      end
-
-      def add_params(data, params) when is_map(params) do
-        data |> Map.merge(%{params: params})
-      end
-      def add_params(data, _), do: data
 
       def do_response(%{body: body, status_code: 200}) do
         body |> Poison.decode!

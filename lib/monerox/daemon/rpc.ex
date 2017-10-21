@@ -17,6 +17,23 @@ defmodule Monerox.Daemon.RPC do
         adapter: Monerox.Daemon.RPC
   """
 
-  use Monerox.RPC, Application.get_env(:monerox, :daemon_rpc)
+  # use Monerox.RPC, Application.get_env(:monerox, :daemon_rpc)
 
+
+  use Monerox.Daemon.RPC.Macro
+  @moduledoc false
+
+  @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
+
+  @spec single_request(map()) :: {:ok, any() | [any()]} | error
+  def single_request(payload) do
+    payload
+    |> encode_payload
+    |> @daemon_rpc.call
+  end
+
+  @spec encode_payload(map()) :: binary()
+  defp encode_payload(payload) do
+    payload |> Poison.encode!
+  end
 end
