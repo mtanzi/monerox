@@ -17,7 +17,8 @@ defmodule Monerox.Daemon.RPC.Macro do
 
       @spec getblocktemplate(binary(), integer()) :: {:ok, binary()} | error
       def getblocktemplate(wallet_address, reverse_size \\ 8) do
-        "getblocktemplate" |> request([wallet_address, reverse_size])
+        "getblocktemplate" |> request(%{wallet_address: wallet_address,
+                                        reverse_size: reverse_size})
       end
 
       @spec getlastblockheader() :: {:ok, binary()} | error
