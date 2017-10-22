@@ -20,7 +20,20 @@ defmodule Monerox.Wallet.RPC do
         password: "RPC-DAEMON-PASSWORD",
         adapter: Monerox.Wallet.RPC
   """
+  use Monerox.Wallet.RPC.Macro
 
-  use Monerox.RPC, Application.get_env(:monerox, :wallet_rpc)
+  @daemon_rpc Application.get_env(:monerox, :wallet_rpc)[:adapter]
+
+  @spec single_request(map()) :: {:ok, any() | [any()]} | error
+  def single_request(payload) do
+    payload
+    |> encode_payload
+    |> @daemon_rpc.call
+  end
+
+  @spec encode_payload(map()) :: binary()
+  defp encode_payload(payload) do
+    payload |> Poison.encode!
+  end
 
 end

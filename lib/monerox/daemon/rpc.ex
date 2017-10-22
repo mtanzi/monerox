@@ -16,12 +16,7 @@ defmodule Monerox.Daemon.RPC do
         port: 18081,
         adapter: Monerox.Daemon.RPC
   """
-
-  # use Monerox.RPC, Application.get_env(:monerox, :daemon_rpc)
-
-
   use Monerox.Daemon.RPC.Macro
-  @moduledoc false
 
   @daemon_rpc Application.get_env(:monerox, :daemon_rpc)[:adapter]
 

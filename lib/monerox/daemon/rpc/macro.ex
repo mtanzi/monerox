@@ -1,7 +1,7 @@
 defmodule Monerox.Daemon.RPC.Macro do
-  alias Monerox.Daemon.RPC.{Server, Behaviour}
-
   @moduledoc false
+
+  alias Monerox.Daemon.RPC.{Server, Behaviour}
 
   defmacro __using__(_) do
     quote location: :keep do
@@ -13,6 +13,16 @@ defmodule Monerox.Daemon.RPC.Macro do
       @spec getblockcount() :: {:ok, binary()} | error
       def getblockcount() do
         "getblockcount" |> request([])
+      end
+
+      @spec on_getblockhash(integer()) :: {:ok, binary()} | error
+      def on_getblockhash(height) do
+        "on_getblockhash" |> request([height])
+      end
+
+      @spec submitblock(binary()) :: {:ok, binary()} | error
+      def submitblock(blob) do
+        "submitblock" |> request([blob])
       end
 
       @spec getblocktemplate(binary(), integer()) :: {:ok, binary()} | error
@@ -44,9 +54,25 @@ defmodule Monerox.Daemon.RPC.Macro do
         "getblock" |> request(%{height: height})
       end
 
-      @spec get_info() :: {:ok, map() | true} | error
+      @spec get_info() :: {:ok, binary() | true} | error
       def get_info() do
         "get_info" |> request([])
+      end
+
+      @spec hard_fork_info() :: {:ok, binary() | true} | error
+      def hard_fork_info() do
+        "hard_fork_info" |> request([])
+      end
+
+      @spec setbans([map()]) :: {:ok, binary() | true} | error
+      def setbans(bans) when is_map(bans), do: setbans([bans])
+      def setbans(bans) do
+        "setbans" |> request(bans)
+      end
+
+      @spec getbans() :: {:ok, binary() | true} | error
+      def getbans() do
+        "getbans" |> request([])
       end
 
       @spec add_request_info(binary, [binary] | [map]) :: map
@@ -65,7 +91,7 @@ defmodule Monerox.Daemon.RPC.Macro do
       end
 
       defp server_request(params) do
-        GenServer.call __MODULE__, {:request, params}
+        GenServer.call __MODULE__, {:daemon_request, params}
       end
 
       def start_link do
@@ -73,7 +99,7 @@ defmodule Monerox.Daemon.RPC.Macro do
       end
 
       def reset_id do
-        GenServer.cast __MODULE__, :reset_id
+        GenServer.cast __MODULE__, :daemon_reset_id
       end
 
       def single_request(params) do

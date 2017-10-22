@@ -1,4 +1,6 @@
 defmodule Monerox.Util do
+  @moduledoc false
+
   def key_to_atom(data) do
     data
     |> Enum.reduce(%{},

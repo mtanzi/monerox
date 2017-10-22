@@ -5,17 +5,17 @@ defmodule Monerox.Daemon do
 
     # RPC
       * getblockcount/0
+      * on_getblockhash/1
+      * submitblock/1
       * getblocktemplate/2
       * getlastblockheader/0
       * getblockheaderbyhash/1
       * getblockheaderbyheight/1
       * getblock/1
       * get_info/0
+      * hard_fork_info/0
 
     TODO:
-      * on_getblockhash
-      * submitblock
-      * hard_fork_info
       * setbans
       * getbans
   """
@@ -35,6 +35,34 @@ defmodule Monerox.Daemon do
   defdelegate getblockcount(), to: Monerox.Daemon.RPC
 
   @doc """
+  it return the block hash from the given height.
+
+  # Params
+
+    * height
+
+  # Example:
+    iex(6)> Monerox.Daemon.on_getblockhash(1425668)
+    %{"id" => 4, "jsonrpc" => "2.0",
+      "result" => "eee551da136407fe9fad950bdf0f5da58cbc878103cc0ae1e2a0a0cde4d459bc"}
+  """
+  defdelegate on_getblockhash(height), to: Monerox.Daemon.RPC
+
+  @doc """
+  submit a block
+
+  # Params
+
+    * blob
+
+  # Example:
+    iex(6)> Monerox.Daemon.submitblock(blob)
+      %{"error" => %{"code" => -7, "message" => "Block not accepted"}, "id" => 8,
+        "jsonrpc" => "2.0"}
+  """
+  defdelegate submitblock(blob), to: Monerox.Daemon.RPC
+
+  @doc """
   it return the block template from the given wallet_address
 
   # Params
@@ -52,7 +80,7 @@ defmodule Monerox.Daemon do
      prev_hash: "e30e4f...",
      reserved_offset: 130}}
   """
-  defdelegate getblocktemplate(wallet_address, reverse_size \\ 8), to: Monerox.Daemon.BlockTemplate, as: :get
+  defdelegate getblocktemplate(wallet_address, reverse_size \\ 8), to: Monerox.Daemon.RPC
 
   @doc """
   It retrieve the header information for the most recent block
@@ -97,11 +125,11 @@ defmodule Monerox.Daemon do
   defdelegate getblockheaderbyhash(hash), to: Monerox.Daemon.RPC
 
   @doc """
-  Fetch the header informations fo the block with the given heigh.
+  Fetch the header informations fo the block with the given height.
 
   # Params
 
-    * heigh (string): height of the block
+    * height (string): height of the block
 
   # Example
 
@@ -164,4 +192,23 @@ defmodule Monerox.Daemon do
       "tx_count" => 1792596, "tx_pool_size" => 0, "white_peerlist_size" => 42}}
   """
   defdelegate get_info(), to: Monerox.Daemon.RPC
+
+
+  @doc """
+  Return the informations about the hard fork.
+
+  # Params
+
+    None
+
+  # Example
+
+    iex(15)> Monerox.Daemon.hard_fork_info
+    %{"id" => 9, "jsonrpc" => "2.0",
+    "result" => %{"earliest_height" => 1400000, "enabled" => true, "state" => 2,
+      "status" => "OK", "threshold" => 0, "version" => 6, "votes" => 10080,
+      "voting" => 6, "window" => 10080}}
+  """
+  defdelegate hard_fork_info(), to: Monerox.Daemon.RPC
+
 end
