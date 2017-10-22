@@ -55,7 +55,7 @@ defmodule Monerox.Wallet do
     iex> Monerox.Wallet.getbalance()
     %{id: "0", jsonrpc: "2.0", result: %{balance: 0, unlocked_balance: 0}}
   """
-  defdelegate getbalance(), to: Monerox.Wallet.Info, as: :balance
+  defdelegate getbalance(), to: Monerox.Wallet.RPC
 
   @doc """
   Return the balance of the wallet.
@@ -70,7 +70,7 @@ defmodule Monerox.Wallet do
     %{id: "0", jsonrpc: "2.0",
     result: %{address: "46oyeHRG..."}}
   """
-  defdelegate getaddress(), to: Monerox.Wallet.Info, as: :address
+  defdelegate getaddress(), to: Monerox.Wallet.RPC
 
   @doc """
   Return the height of the current block of the wallet.
@@ -84,6 +84,6 @@ defmodule Monerox.Wallet do
     iex> Monerox.Wallet.getheight()
     %{id: "0", jsonrpc: "2.0", result: %{height: 1421114}}
   """
-  defdelegate getheight(), to: Monerox.Wallet.Info, as: :height
+  defdelegate getheight(), to: Monerox.Wallet.RPC
 
 end

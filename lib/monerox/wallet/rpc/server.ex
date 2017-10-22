@@ -1,4 +1,4 @@
-defmodule Monerox.Daemon.RPC.Server do
+defmodule Monerox.Wallet.RPC.Server do
   @moduledoc false
 
   use GenServer
@@ -7,7 +7,7 @@ defmodule Monerox.Daemon.RPC.Server do
     GenServer.start_link(__MODULE__, {module, 0}, name: module)
   end
 
-  def handle_call({:daemon_request, params}, _from, {module, id}) when is_list(params) do
+  def handle_call({:wallet_request, params}, _from, {module, id}) when is_list(params) do
     params =
       params
       |> Enum.with_index
@@ -20,7 +20,7 @@ defmodule Monerox.Daemon.RPC.Server do
     {:reply, response, {module, id + Enum.count(params)}}
   end
 
-  def handle_call({:daemon_request, params}, _from, {module, id}) do
+  def handle_call({:wallet_request, params}, _from, {module, id}) do
     params = Map.put(params, "id", id)
 
     response = apply(module, :single_request, [params])
@@ -28,7 +28,7 @@ defmodule Monerox.Daemon.RPC.Server do
     {:reply, response, {module, id + 1}}
   end
 
-  def handle_cast(:daemon_reset_id, {module, _id}) do
+  def handle_cast(:wallet_reset_id, {module, _id}) do
     {:noreply, {module, 0}}
   end
 end
