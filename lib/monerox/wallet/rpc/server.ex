@@ -10,10 +10,10 @@ defmodule Monerox.Wallet.RPC.Server do
   def handle_call({:wallet_request, params}, _from, {module, id}) when is_list(params) do
     params =
       params
-      |> Enum.with_index
-      |> Enum.map(fn({req_data, index}) ->
-        Map.put(req_data, "id", index + id)
-      end)
+      |> Enum.with_index()
+      |> Enum.map(fn {req_data, index} ->
+           Map.put(req_data, "id", index + id)
+         end)
 
     response = apply(module, :single_request, [params])
 

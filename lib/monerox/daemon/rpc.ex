@@ -29,6 +29,6 @@ defmodule Monerox.Daemon.RPC do
 
   @spec encode_payload(map()) :: binary()
   defp encode_payload(payload) do
-    payload |> Poison.encode!
+    payload |> Poison.encode!()
   end
 end

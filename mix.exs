@@ -6,7 +6,7 @@ defmodule Monerox.Mixfile do
       app: :monerox,
       version: "0.2.0",
       elixir: "~> 1.5",
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
