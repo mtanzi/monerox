@@ -6,7 +6,7 @@ defmodule Monerox.Daemon.RPC.Macro do
   defmacro __using__(_) do
     quote location: :keep do
       @behaviour Behaviour
-      @type error :: Behaviour.error
+      @type error :: Behaviour.error()
 
       use Monerox.RPC, Application.get_env(:monerox, :daemon_rpc)
 
@@ -27,8 +27,8 @@ defmodule Monerox.Daemon.RPC.Macro do
 
       @spec getblocktemplate(binary(), integer()) :: {:ok, binary()} | error
       def getblocktemplate(wallet_address, reverse_size \\ 8) do
-        "getblocktemplate" |> request(%{wallet_address: wallet_address,
-                                        reverse_size: reverse_size})
+        "getblocktemplate"
+        |> request(%{wallet_address: wallet_address, reverse_size: reverse_size})
       end
 
       @spec getlastblockheader() :: {:ok, binary()} | error
@@ -50,6 +50,7 @@ defmodule Monerox.Daemon.RPC.Macro do
       def getblock(%{hash: hash}) do
         "getblock" |> request(%{hash: hash})
       end
+
       def getblock(%{height: height}) do
         "getblock" |> request(%{height: height})
       end
@@ -66,6 +67,7 @@ defmodule Monerox.Daemon.RPC.Macro do
 
       @spec setbans([map()]) :: {:ok, binary() | true} | error
       def setbans(bans) when is_map(bans), do: setbans([bans])
+
       def setbans(bans) do
         "setbans" |> request(bans)
       end
@@ -91,7 +93,7 @@ defmodule Monerox.Daemon.RPC.Macro do
       end
 
       defp server_request(params) do
-        GenServer.call __MODULE__, {:daemon_request, params}
+        GenServer.call(__MODULE__, {:daemon_request, params})
       end
 
       def start_link do
@@ -99,15 +101,14 @@ defmodule Monerox.Daemon.RPC.Macro do
       end
 
       def reset_id do
-        GenServer.cast __MODULE__, :daemon_reset_id
+        GenServer.cast(__MODULE__, :daemon_reset_id)
       end
 
       def single_request(params) do
         {:error, :not_implemented}
       end
 
-      defoverridable [single_request: 1]
+      defoverridable single_request: 1
     end
   end
-
 end

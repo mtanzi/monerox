@@ -85,5 +85,4 @@ defmodule Monerox.Wallet do
     %{id: "0", jsonrpc: "2.0", result: %{height: 1421114}}
   """
   defdelegate getheight(), to: Monerox.Wallet.RPC
-
 end

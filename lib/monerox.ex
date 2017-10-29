@@ -9,7 +9,7 @@ defmodule Monerox do
 
     children = [
       worker(Monerox.Daemon.RPC, []),
-      worker(Monerox.Wallet.RPC, []),
+      worker(Monerox.Wallet.RPC, [])
     ]
 
     opts = [strategy: :one_for_one, name: Monerox.Supervisor]

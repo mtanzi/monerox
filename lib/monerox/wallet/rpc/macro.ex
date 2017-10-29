@@ -6,7 +6,7 @@ defmodule Monerox.Wallet.RPC.Macro do
   defmacro __using__(_) do
     quote location: :keep do
       @behaviour Behaviour
-      @type error :: Behaviour.error
+      @type error :: Behaviour.error()
 
       use Monerox.RPC, Application.get_env(:monerox, :wallet_rpc)
 
@@ -41,7 +41,7 @@ defmodule Monerox.Wallet.RPC.Macro do
       end
 
       defp server_request(params) do
-        GenServer.call __MODULE__, {:wallet_request, params}
+        GenServer.call(__MODULE__, {:wallet_request, params})
       end
 
       def start_link do
@@ -49,15 +49,14 @@ defmodule Monerox.Wallet.RPC.Macro do
       end
 
       def reset_id do
-        GenServer.cast __MODULE__, :wallet_reset_id
+        GenServer.cast(__MODULE__, :wallet_reset_id)
       end
 
       def single_request(params) do
         {:error, :not_implemented}
       end
 
-      defoverridable [single_request: 1]
+      defoverridable single_request: 1
     end
   end
-
 end

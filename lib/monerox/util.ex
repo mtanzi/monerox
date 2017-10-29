@@ -3,14 +3,13 @@ defmodule Monerox.Util do
 
   def key_to_atom(data) do
     data
-    |> Enum.reduce(%{},
-      fn ({key, val}, acc) ->
-        Map.put(acc, String.to_atom(key), val)
-      end)
+    |> Enum.reduce(%{}, fn {key, val}, acc ->
+         Map.put(acc, String.to_atom(key), val)
+       end)
   end
 
   def convert_date(%{timestamp: timestamp} = data) do
     data
-    |> Map.put(:timestamp, timestamp |> DateTime.from_unix!)
+    |> Map.put(:timestamp, timestamp |> DateTime.from_unix!())
   end
 end

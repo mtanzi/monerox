@@ -193,7 +193,6 @@ defmodule Monerox.Daemon do
   """
   defdelegate get_info(), to: Monerox.Daemon.RPC
 
-
   @doc """
   Return the informations about the hard fork.
 
@@ -210,5 +209,4 @@ defmodule Monerox.Daemon do
       "voting" => 6, "window" => 10080}}
   """
   defdelegate hard_fork_info(), to: Monerox.Daemon.RPC
-
 end
